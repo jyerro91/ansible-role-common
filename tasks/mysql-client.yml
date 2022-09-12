@@ -1,0 +1,6 @@
+---
+- name: Install Mysql client only
+  apt:
+    name: mysql-client
+    state: present
+  when: mysql_client_installed

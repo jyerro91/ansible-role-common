@@ -1,0 +1,27 @@
+---
+- name: Check if AWS-CLI is already present
+  stat:
+    path: "/usr/local/bin/aws"
+  register: aws_is_present
+
+- name: Download AWS-CLI installer.
+  unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/opt"
+    remote_src: yes
+    creates: "/opt/aws"
+    mode: 0755
+  when: not aws_is_present.stat.exists
+
+- name: Run the installer
+  command:
+  args:
+    cmd: "/opt/aws/install"
+    creates: /usr/local/bin/aws
+  when: not aws_is_present.stat.exists
+
+- name: Remove AWS-CLI extracted installer
+  file:
+    path: "/opt/aws"
+    state: absent
+  when: not aws_is_present.stat.exists

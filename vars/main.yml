@@ -1,0 +1,4 @@
+---
+# vars file for roles/jyerro.common
+awscli_installed: true
+mysql_client_installed: false

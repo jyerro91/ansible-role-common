@@ -1,0 +1,17 @@
+---
+# tasks file for roles/jyerro.common
+
+# - include_tasks: upgrade-server.yml
+#   when: ansible_os_family == 'Debian'
+
+# Must be run once and if the server is newly provisioned
+- include_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+
+# # Install Mysql Client
+- include_tasks: mysql-client.yml
+  when: ansible_os_family == 'Debian'
+
+# # Install AWS CLI
+- include_tasks: awscli.yml
+  when: awscli_installed

@@ -1,0 +1,30 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Ensure required dependencies is installed.
+  apt:
+    name:
+      - unzip
+      - htop
+      - tmux
+      - vim
+      - nano
+      - wget
+      - curl
+      - pigz
+      - acl
+      - keychain
+      - jq
+    state: present
+
+- name: Install sysctl network configuration
+  template:
+    src: "sysctl/local.conf.j2"
+    dest: /etc/sysctl.d/local.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Apply sysctl configuration
+  command: sysctl -p /etc/sysctl.d/local.conf
